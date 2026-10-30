@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
-from .models import Book
+from .models import Book, BookPage 
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -40,3 +40,14 @@ class BookSerializer(serializers.ModelSerializer):
                 {"available_copies": "Available copies cannot exceed total copies."}
             )
         return attrs
+class BookPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookPage
+        fields = ("id", "page_number", "title", "content")
+
+
+class BookDetailSerializer(BookSerializer):
+    pages = BookPageSerializer(many=True, read_only=True)
+
+    class Meta(BookSerializer.Meta):
+        fields = BookSerializer.Meta.fields + ("pages",)

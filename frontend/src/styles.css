@@ -60,3 +60,9 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); }
   .navbar { padding: 12px 14px; }
   .row { flex-direction: column; }
 }
+.reader { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.reader h2 { margin: 8px 0 0; }
+.page { padding: 28px; }
+.page h3 { margin-top: 0; }
+.page-text { white-space: pre-wrap; line-height: 1.8; font-size: 1.05rem; }
+.book h3 a { color: inherit; }

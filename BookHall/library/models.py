@@ -26,3 +26,16 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.author}"
+
+class BookPage(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="pages")
+    page_number = models.PositiveIntegerField()
+    title = models.CharField(max_length=200, blank=True)
+    content = models.TextField()
+
+    class Meta:
+        ordering = ["page_number"]
+        unique_together = ("book", "page_number")
+
+    def __str__(self):
+        return f"{self.book.title} - page {self.page_number}"

@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api";
+import { useAuth } from "../AuthContext";
 
 export default function Books() {
+  const { isStaff } = useAuth();
   const [books, setBooks] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
@@ -23,7 +25,6 @@ export default function Books() {
     }
   }, [search, category, page]);
 
-  // Wait 250ms after typing stops before calling the API
   useEffect(() => {
     const t = setTimeout(load, 250);
     return () => clearTimeout(t);
@@ -60,13 +61,13 @@ export default function Books() {
       ) : books.length === 0 ? (
         <div className="card empty">
           <p>No books found.</p>
-          <Link to="/books/new" className="btn small">Add your first book</Link>
+          {isStaff && <Link to="/books/new" className="btn small">Add your first book</Link>}
         </div>
       ) : (
         <div className="grid">
           {books.map((b) => (
             <article className="card book" key={b.id}>
-              <h3>{b.title}</h3>
+              <h3><Link to={`/books/${b.id}`}>{b.title}</Link></h3>
               <p className="muted">by {b.author}{b.published_year ? ` · ${b.published_year}` : ""}</p>
               {b.category && <span className="tag">{b.category}</span>}
               <p className="desc">{b.description || "No description."}</p>
@@ -77,8 +78,9 @@ export default function Books() {
                 </strong>
               </p>
               <div className="actions">
-                <Link to={`/books/${b.id}/edit`} className="btn small ghost">Edit</Link>
-                <button className="btn small danger" onClick={() => remove(b)}>Delete</button>
+                <Link to={`/books/${b.id}`} className="btn small">Read</Link>
+                {isStaff && <Link to={`/books/${b.id}/edit`} className="btn small ghost">Edit</Link>}
+                {isStaff && <button className="btn small danger" onClick={() => remove(b)}>Delete</button>}
               </div>
             </article>
           ))}
