@@ -100,7 +100,3 @@ Manoj
 
 
 
-
-
-
-<img width="1360" height="768" alt="image" src="https://github.com/user-attachments/assets/d47e11a6-37ac-413e-9837-ffe73dd9a426" />
